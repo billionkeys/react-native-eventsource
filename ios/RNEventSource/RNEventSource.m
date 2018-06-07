@@ -67,7 +67,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)URLString sourceID:(nonnull NSNumber *)sou
 - (void)eventSource:(TRVSEventSource *)eventSource didFailWithError:(NSError *)error
 {
     [_bridge.eventDispatcher sendDeviceEventWithName:@"eventsourceFailed" body:@{
-      @"message": error.localizedDescription,
+      @"message": error ? error.localizedDescription : @"Empty exception",
       @"id": eventSource.reactTag
     }];
     
