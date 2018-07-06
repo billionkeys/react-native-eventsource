@@ -13,9 +13,9 @@ import com.facebook.react.bridge.JavaScriptModule;
 
 public class RNEventSourcePackage implements ReactPackage {
 
-	public RNEventSourcePackage() {}
+  public RNEventSourcePackage() {}
 
-	@Override
+  @Override
   public List<NativeModule> createNativeModules(
   		ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
@@ -25,14 +25,12 @@ public class RNEventSourcePackage implements ReactPackage {
     return modules;
   }
 
-  @Override
-	public List<Class<? extends JavaScriptModule>> createJSModules() {
+  public List<Class<? extends JavaScriptModule>> createJSModules() {
     return Collections.emptyList();
-	}
+  }
 
-	@Override
-	public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+  public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     return Collections.emptyList();
-	}
+  }
 
 }
