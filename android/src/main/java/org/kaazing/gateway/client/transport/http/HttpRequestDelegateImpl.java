@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2007-2014 Kaazing Corporation. All rights reserved.
- * 
+ *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -8,9 +8,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -100,7 +100,9 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
         LOG.entering(CLASS_NAME, "abort");
         if (reader != null) {
             reader.stop();
+            connection.disconnect();
             reader = null;
+            connection = null;
         }
     };
 
@@ -167,12 +169,12 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
             if (!async && content != null && content.hasRemaining()) {
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
-                
-                OutputStream out = connection.getOutputStream(); 
+
+                OutputStream out = connection.getOutputStream();
                 out.write(content.array(), content.arrayOffset(), content.remaining());
                 out.flush();
             }
-            
+
             connection.connect();
             reader = new StreamReader();
             Thread t = new Thread(reader, "HttpRequestDelegate stream reader");
@@ -180,7 +182,7 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
             t.start();
         }
         catch (Exception e) {
-            LOG.log(Level.FINE, "While processing http request", e); 
+            LOG.log(Level.FINE, "While processing http request", e);
             // e.printStackTrace();
             listener.errorOccurred(new ErrorEvent(e));
         }
@@ -227,8 +229,8 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
                 LOG.log(Level.INFO, e.getMessage(), e);
             }
        }
-       
-       public void run2() {            
+
+       public void run2() {
             LOG.entering(CLASS_NAME, "run");
             InputStream in = null;
             try {
@@ -252,10 +254,10 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
                 String allHeaders = allHeadersBuffer.toString();
                 String[] params = new String[] {Integer.toString(State.HEADERS_RECEIVED.ordinal()), Integer.toString(httpResponseCode), connection.getResponseMessage() + "",
                         allHeaders};
-                
+
                 setReadyState(State.HEADERS_RECEIVED);
                 listener.readyStateChanged(new ReadyStateChangedEvent(params));
-                
+
                 if(httpResponseCode == 401) {
                     listener.loaded(new LoadEvent(ByteBuffer.allocate(0)));
                     requestCompleted.compareAndSet(false, true);
@@ -287,11 +289,11 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
                         throw ex;
                     }
                 }
-                
-                
+
+
                 byte[] payloadBuffer = new byte[4096]; // read in chunks
                 while (!stopped.get()) {
-                	int numberOfBytesRead = in.read(payloadBuffer, 0, payloadBuffer.length); 
+                	int numberOfBytesRead = in.read(payloadBuffer, 0, payloadBuffer.length);
                 	if (numberOfBytesRead == -1) {
                 		// end of stream, break from loop
                 		break;
@@ -311,7 +313,7 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
                     }
                     listener.progressed(new ProgressEvent(payload, 0, 0));
                 }
-                
+
                 if (!stopped.get()) {
                     // We want to fire the load event for complete responses
                     // only that are
@@ -321,7 +323,7 @@ public class HttpRequestDelegateImpl implements HttpRequestDelegate {
                     responseBuffer.flip();
                     completedResponseBuffer = responseBuffer.duplicate();
                     setReadyState(State.DONE);
-                    
+
                     try {
                         listener.loaded(new LoadEvent(completedResponseBuffer));
                     }
