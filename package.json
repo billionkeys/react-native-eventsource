@@ -1,7 +1,7 @@
 {
   "name": "@gpsgate/react-native-eventsource",
   "description": "@gpsgate/react-native-eventsource",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "author": "João Ribeiro <jonnybgod@gmail.com>",
   "license": "MIT",

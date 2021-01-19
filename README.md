@@ -5,7 +5,7 @@
 ### Installation
 
 ```
-yarn add git+https://github.com/ExpandoPakistan/react-native-eventsource.git
+yarn add git+https://github.com/gpsgate/react-native-eventsource.git
 ```
 
 ### Usage
