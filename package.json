@@ -1,9 +1,9 @@
 {
-  "name": "@gpsgate/react-native-eventsource",
-  "description": "@gpsgate/react-native-eventsource",
-  "version": "0.0.2",
+  "name": "@billionkeys/react-native-eventsource",
+  "description": "React-Native component for EventSource: Server-Sent Events for iOS and Android",
+  "version": "1.0.0",
   "main": "index.js",
-  "author": "João Ribeiro <jonnybgod@gmail.com>",
+  "author": "BillionKeys <dev@billionkeys.com>",
   "license": "MIT",
-  "homepage": "https://github.com/gpsgate/react-native-eventsource"
+  "homepage": "https://github.com/billionkeys/react-native-eventsource"
 }
